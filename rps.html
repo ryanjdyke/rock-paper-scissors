@@ -7,8 +7,15 @@
     <title>Document</title>
 </head>
 <body>
+    <div id="container"></div>
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+    <div id="results"></div>
+    <div id="playerTotal"></div>
+    <div id="computerTotal"></div>
+    <div id="winner"></div>
     <script>
-        const playerSelection = prompt("Rock, Paper, or Scissors?");
         function getComputerChoice() {
             let choiceNum = Math.floor(Math.random() * 3);
             if (choiceNum === 0) {
@@ -19,36 +26,80 @@
                 return "scissors";
             }
         }
-        function playRound() {
-            const computerSelection = getComputerChoice();
+        function playRound(playerSelection, computerSelection) {
+            computerSelection = getComputerChoice();
             if (playerSelection.toLowerCase() === "rock" && computerSelection === "paper") {
+                computerTotal.textContent = (computerScore += 1);
                 return "You Lose! Paper beats Rock";
             } else if (playerSelection.toLowerCase() === "rock" && computerSelection === "scissors") {
+                playerTotal.textContent = (playerScore += 1);
                 return "You Win! Rock beats Scissors";
             } else if (playerSelection.toLowerCase() === "rock" && computerSelection === "rock") {
                 return "It's a tie!";
             } else if (playerSelection.toLowerCase() === "paper" && computerSelection === "paper") {
                 return "It's a tie!";
             } else if (playerSelection.toLowerCase() === "paper" && computerSelection === "scissors") {
+                computerTotal.textContent = (computerScore += 1);
                 return "You Lose! Scissors beats Paper";
             } else if (playerSelection.toLowerCase() === "paper" && computerSelection === "rock") {
+                playerTotal.textContent = (playerScore += 1);
                 return "You Win! Paper beats Rock";
             } else if (playerSelection.toLowerCase() === "scissors" && computerSelection === "paper") {
+                playerTotal.textContent = (playerScore += 1);
                 return "You Win! Scissors beats Paper";
             } else if (playerSelection.toLowerCase() === "scissors" && computerSelection === "scissors") {
                 return "It's a tie!";
             } else if (playerSelection.toLowerCase() === "scissors" && computerSelection === "rock") {
+                computerTotal.textContent = (computerScore += 1);
                 return "You Lose! Rock beats Scissors";
             } else {
                 return "Something went wrong...";
             }
         }
-        function game() {
-            for (let i = 0; i < 5; i++) {
-                console.log(playRound());
+        const results = document.querySelector("#results");
+        const playerTotal = document.querySelector("#playerTotal");
+        const computerTotal = document.querySelector("#computerTotal");
+        const winner = document.querySelector("#winner");
+        let playerScore = 0;
+        let computerScore = 0;
+
+        const rock = document.querySelector("#rock");
+        rock.addEventListener("click", () => {
+            results.textContent = (playRound("rock"));
+            checkWinner();
+        });
+
+        const paper = document.querySelector("#paper");
+        paper.addEventListener("click", () => {
+            results.textContent = (playRound("paper"));
+            checkWinner();
+        });
+
+        const scissors = document.querySelector("#scissors");
+        scissors.addEventListener("click", () => {
+            results.textContent = (playRound("scissors"));
+            checkWinner();
+        });
+        
+
+        function checkWinner() {
+            if (playerScore == 5) {
+                winner.textContent = "Congratulations! You Win!";
+                playerScore = 0;
+                computerScore = 0;
+                playerTotal.textContent = 0;
+                computerTotal.textContent = 0;
+            }
+            if (computerScore == 5) {
+                winner.textContent = "Too bad, the computer won";
+                playerScore = 0;
+                computerScore = 0;
+                playerTotal.textContent = 0;
+                computerTotal.textContent = 0;
             }
         }
-        console.log(game());
+
+
     </script>
 </body>
 </html>
